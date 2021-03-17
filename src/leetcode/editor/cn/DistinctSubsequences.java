@@ -65,61 +65,31 @@ public class DistinctSubsequences {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int numDistinct(String s, String t) {
-        if (s.length() == 0) {
-            return 0;
-        }
         char[] sChar = s.toCharArray();
-        int[] sCount = new int[sChar.length];
         char[] tChar = t.toCharArray();
-        int[] tCount = new int[tChar.length];
-        sCount[0] = 1;
-        tCount[0] = 1;
-        int sLen = 1;
-        for (int i = 1; i < sChar.length; i++) {
-            if (sChar[i] == sChar[sLen - 1]) {
-                sCount[sLen - 1]++;
-            } else {
-                sLen++;
-                sChar[sLen - 1] = sChar[i];
-                sCount[sLen - 1] = 1;
+        int[][] result = new int[sChar.length+1][tChar.length+1];
+        for (int i = sChar.length; i >= 0; i--) {
+            for (int j = tChar.length; j >= 0; j--) {
+                if (sChar.length - i < tChar.length - j) {
+                    result[i][j] = 0;
+                    continue;
+                }
+                if (j == tChar.length) {
+                    result[i][j] = 1;
+                    continue;
+                }
+                if (sChar[i] == tChar[j]) {
+                    result[i][j] = result[i+1][j+1] + result[i+1][j];
+                } else {
+                    result[i][j] = result[i+1][j];
+                }
             }
         }
-        int tLen = 1;
-        for (int i = 1; i < tChar.length; i++) {
-            if (tChar[i] == tChar[tLen - 1]) {
-                tCount[tLen - 1]++;
-            } else {
-                tLen++;
-                tChar[tLen - 1] = tChar[i];
-                tCount[tLen - 1] = 1;
-            }
-        }
-        return count(sChar, tChar, sCount, tCount, 0, 0, sLen, tLen);
+        return result[0][0];
+
     }
 
-    public int count(char[] s, char[] t, int[] sCount, int[] tCount, int sNum, int tIndex, int sLimit, int tLimit) {
-        if (tIndex == tLimit) {
-            return 1;
-        }
-        int result = 0;
-        for (int i = sNum; i < sLimit; i++) {
-            if (t[tIndex] == s[i]) {
-                result += (calculate(sCount[i], tCount[tIndex]) *
-                        count(s, t, sCount, tCount, i + 1, tIndex + 1, sLimit, tLimit));
-            }
-        }
-        return result;
-    }
 
-    public int calculate(int x, int y) {
-        int result1 = 1;
-        int result2 = 1;
-        for (int i = 0; i < y; i++) {
-            result1 *= (x-i);
-            result1 /= (i+1);
-        }
-        return result1 / result2;
-    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
