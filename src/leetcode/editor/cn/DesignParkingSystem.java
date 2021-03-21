@@ -48,7 +48,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DesignParkingSystem {
 
     public static void main(String[] args) {
-	    Solution solution = new DesignParkingSystem().new Solution();
+//	    Solution solution = new DesignParkingSystem().new Solution();
     }
 
 //leetcode submit region begin(Prohibit modification and deletion)
