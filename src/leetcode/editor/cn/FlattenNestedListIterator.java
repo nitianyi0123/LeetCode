@@ -22,6 +22,9 @@ package leetcode.editor.cn;
 // 👍 281 👎 0
 
 
+import java.util.Iterator;
+import java.util.List;
+
 public class FlattenNestedListIterator {
 
     public static void main(String[] args) {
@@ -94,6 +97,16 @@ public class NestedIterator implements Iterator<Integer> {
         }
         return false;
     }
+
+}
+
+interface NestedInteger {
+    boolean isInteger();
+    Integer getInteger();
+    List<NestedInteger> getList();
+}
+
+class Solution {
 
 }
 
