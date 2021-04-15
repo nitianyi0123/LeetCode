@@ -56,36 +56,23 @@ class Solution {
         } else if (nums.length == 2) {
             return Math.max(nums[0], nums[1]);
         }
-        int[] result = new int[nums.length];
-        boolean[] flag = new boolean[nums.length];
-        flag[0] = true;
-        for (int i = 0; i < nums.length; i++) {
+        int a = rob(nums, 0, nums.length - 1);
+        int b = rob(nums, 1, nums.length);
+        return Math.max(a, b);
+    }
+
+    public int rob(int[] nums, int start, int end) {
+        int[] result = new int[end - start];
+        for (int i = 0; i < end - start; i++) {
             int temp = 0;
             if (i == 2) {
-                temp = nums[i - 2];
-                flag[i] = flag[i - 2];
+                temp = nums[start + i - 2];
             } else if (i > 2) {
-                if (result[i - 2] > result[i - 3]) {
-                    temp = result[i - 2];
-                    flag[i] = flag[i - 2];
-                } else {
-                    temp = result[i - 3];
-                    flag[i] = flag[i - 3];
-                }
+                temp = Math.max(result[i - 2], result[i - 3]);
             }
-            if (flag[i] && i == nums.length - 1) {
-                if (!flag[i - 2]) {
-                    temp = result[i - 2];
-                } else if (i >= 3 && !flag[i - 3]) {
-                    temp = result[i - 3];
-                } else {
-                    temp = 0;
-                }
-            }
-            result[i] = temp + nums[i];
+            result[i] = temp + nums[start + i];
         }
-        int answer = Math.max(result[nums.length - 2], result[nums.length - 3]);
-        return Math.max(answer, result[nums.length - 1]);
+        return Math.max(result[end - start - 2], result[end - start - 1]);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
